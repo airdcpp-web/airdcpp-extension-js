@@ -1,6 +1,6 @@
 {
   "name": "airdcpp-extension",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AirDC++ extension development modules for JavaScript",
   "main": "dist/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "airdcpp-extensions"
   ],
   "dependencies": {
-    "airdcpp-apisocket": "1.0.0-beta.11",
+    "airdcpp-apisocket": "1.0.0-beta.12",
     "chalk": "^1.1.3",
     "minimist": "^1.2.0",
     "websocket": "^1.0.24"
