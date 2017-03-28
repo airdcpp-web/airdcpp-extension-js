@@ -1,23 +1,23 @@
 # AirDC++ extension development modules for JavaScript
 
+>If you are new to AirDC++ extension development, you should first see the [`airdcpp-create-extension`](https://github.com/airdcpp-web/airdcpp-create-extension/) starter project for a complete introduction.
+
+
 This package provides the following modules for AirDC++ module development:
 
-**[Managed extension](#managed-extension)**
+### [Managed extension](#managed-extension)**
 
 Used when the extension is installed and managed by the application itself. 
 
-**[Remote extension](#remote-extension)**
+### [Remote extension](#remote-extension)**
 
 Used when the extension is launched manually with node instead of being installed in the application. Remote extension is launched externally and it connects to the API by using normal credential-based authentication. 
 
 Remote extension can be useful for development use or when the extension needs to be run on a different machine. In generic use cases it's better to use Managed extension instead.
 
 
-If you are new to AirDC++ extension development, you should first see the [`airdcpp-create-extension`](https://github.com/airdcpp-web/airdcpp-create-extension/) starter project for a complete introduction.
 
-
-
-## Extension entry
+## Extension entry structure
 
 ### Default export
 
@@ -27,7 +27,7 @@ If you are new to AirDC++ extension development, you should first see the [`aird
 
 `socket`
 
-[airdcpp-apisocket](https://github.com/airdcpp-web/airdcpp-apisocket-js/) instance that can be used to communicate with the API.
+[airdcpp-apisocket](https://github.com/airdcpp-web/airdcpp-apisocket-js/) instance that can be used to communicate with AirDC++ Web API.
 
 `extension` (object)
 
@@ -52,7 +52,7 @@ Object containing generic information about the extension.
 
 **Arguments**
 
-`entry` ([Extension entry](#extension-entry))
+`entry` ([Extension entry](#extension-entry-structure))
 
 `socketOptions` (object, optional)
 
@@ -73,7 +73,7 @@ See the package entry point of [`airdcpp-create-extension`]((https://github.com/
 
 **Arguments**
 
-`entry` ([Extension entry](#extension-entry))
+`entry` ([Extension entry](#extension-entry-structure))
 
 `socketOptions` (object, required)
 
