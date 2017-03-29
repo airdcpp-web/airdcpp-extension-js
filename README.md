@@ -5,11 +5,11 @@
 
 This package provides the following modules for AirDC++ module development:
 
-### [Managed extension](#managed-extension)**
+### [Managed extension](#managed-extension)
 
 Used when the extension is installed and managed by the application itself. 
 
-### [Remote extension](#remote-extension)**
+### [Remote extension](#remote-extension)
 
 Used when the extension is launched manually with node instead of being installed in the application. Remote extension is launched externally and it connects to the API by using normal credential-based authentication. 
 
