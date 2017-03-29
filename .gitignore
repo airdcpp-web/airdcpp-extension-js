@@ -4,3 +4,5 @@ coverage
 npm-debug.log
 .idea
 /dist
+/examples/settings.js
+/examples/data

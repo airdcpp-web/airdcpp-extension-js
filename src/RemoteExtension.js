@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const fs = require('fs');
+const mkdirp = require('mkdirp');
 const path = require('path');
 
 const ApiSocket = require('airdcpp-apisocket');
@@ -9,7 +10,7 @@ const parseDataDirectory = (dataPath, directoryName) => {
 	const directoryPath = path.resolve(dataPath, directoryName) + path.sep;
 
 	if (!fs.existsSync(directoryPath)){
-		fs.mkdirSync(directoryPath);
+		mkdirp.sync(directoryPath);
 	}
 
 	return directoryPath;
