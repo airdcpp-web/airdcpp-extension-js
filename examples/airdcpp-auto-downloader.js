@@ -9,13 +9,13 @@ const SettingDefinitions = [
 	{
 		key: 'search_interval',
 		title: 'Search interval (minutes)',
-		defaultValue: 5,
+		default_value: 5,
 		type: 'number',
 	}, {
 		key: 'search_items',
 		title: 'Search items',
 		optional: true,
-		defaultValue: [
+		default_value: [
 			{
 				pattern: 'ubuntu',
 				extensions: 'iso;img',
@@ -24,18 +24,18 @@ const SettingDefinitions = [
 			}
 		],
 		type: 'list_object',
-		value_definitions: [
+		definitions: [
 			...Utils.searchQueryDefinitions,
 			{
 				key: 'priority',
 				title: 'Priority',
-				defaultValue: 3,
+				default_value: 3,
 				type: 'number',
-				values: Utils.priorityEnum,
+				options: Utils.priorityEnum,
 			}, {
 				key: 'target_directory',
 				title: 'Target directory',
-				defaultValue: '',
+				default_value: '',
 				type: 'directory_path',
 				help: 'Leave empty to use the default download directory',
 				optional: true,

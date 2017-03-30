@@ -14,19 +14,19 @@ const SettingDefinitions = [
 		// A cache of already announced directories could be implemented to avoid such issues
 		key: 'check_own_share',
 		title: 'Check own share',
-		defaultValue: true,
+		default_value: true,
 		type: 'boolean',
 	}, {
 		// Announce finished bundles when they are added in share
 		key: 'check_connecting_users',
 		title: 'Check each connecting user',
-		defaultValue: true,
+		default_value: true,
 		type: 'boolean',
 	}, {
 		key: 'search_items',
 		title: 'Search items',
 		optional: true,
-		defaultValue: [
+		default_value: [
 			{
 				extensions: 'iso',
 				min_size: 500,
@@ -34,12 +34,12 @@ const SettingDefinitions = [
 			}
 		],
 		type: 'list_object',
-		value_definitions: [
+		definitions: [
 			...Utils.searchQueryDefinitions,
 			{
 				key: 'report_message',
 				title: 'Report message',
-				defaultValue: '',
+				default_value: '',
 				type: 'string',
 				help: 'Message to show when forbidden items are found',
 			},

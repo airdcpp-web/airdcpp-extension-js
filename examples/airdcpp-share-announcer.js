@@ -10,18 +10,18 @@ const SettingDefinitions = [
 		// A cache of already announced directories could be implemented to avoid such issues
 		key: 'announce_hashed',
 		title: 'Announce hashed items',
-		defaultValue: true,
+		default_value: true,
 		type: 'boolean',
 	}, {
 		// Announce finished bundles when they are added in share
 		key: 'announce_finished_bundles',
 		title: 'Announce finished bundles',
-		defaultValue: true,
+		default_value: true,
 		type: 'boolean',
 	}, {
 		key: 'hub_urls',
 		title: 'Hub addresses',
-		defaultValue: [],
+		default_value: [],
 		help: 'Leave empty to enable in all hubs',
 		type: 'list_string',
 		optional: true,
@@ -42,9 +42,8 @@ module.exports = function (socket, extension) {
 
 	const onDirectoryShared = (name, size) => {
 		// Send a chat message to specified hubs
-		const urls = settings.getValue('hub_urls');
 		socket.post('hubs/chat_message', {
-			hub_urls: urls.length > 0 ? urls : undefined,
+			hub_urls: settings.getValue('hub_urls'),
 			text: `The directory ${name} (${Utils.formatSize(size)}) was added in share`,
 		});
 	};

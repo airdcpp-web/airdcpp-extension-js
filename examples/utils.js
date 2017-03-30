@@ -97,26 +97,26 @@ module.exports = {
 		{
 			key: 'pattern',
 			title: 'Search string',
-			defaultValue: '',
+			default_value: '',
 			type: 'string',
 			optional: true,
 		}, {
 			key: 'extensions',
 			title: 'File extensions',
-			defaultValue: '',
+			default_value: '',
 			type: 'string',
 			help: 'Separate extensions with ; (example: exe;iso;img)',
 			optional: true,
 		}, {
 			key: 'file_type',
 			title: 'File type',
-			defaultValue: 'any',
+			default_value: 'any',
 			type: 'string',
-			values: fileTypeEnum,
+			options: fileTypeEnum,
 		}, {
 			key: 'min_size',
 			title: 'Minimum size (MiB)',
-			defaultValue: 0,
+			default_value: 0,
 			type: 'number',
 		}
 	],

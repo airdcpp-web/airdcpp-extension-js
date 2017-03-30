@@ -9,15 +9,14 @@ const SettingDefinitions = [
 		// Announce finished bundles when they are added in share
 		key: 'skip_op',
 		title: "Don't ignore messages sent by operators",
-		defaultValue: true,
+		default_value: true,
 		type: 'boolean',
 	}, {
 		key: 'ignored_words',
 		title: 'Ignored words',
-		defaultValue: [],
 		type: 'list_string',
 		optional: true,
-		defaultValue: [
+		default_value: [
 			'ignoretest',
 			'http://',
 		],
