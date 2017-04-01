@@ -14,7 +14,8 @@ const SettingDefinitions = [
 	}, {
 		key: 'ignored_words',
 		title: 'Ignored words',
-		type: 'list_string',
+		type: 'list',
+		item_type: 'string',
 		optional: true,
 		default_value: [
 			'ignoretest',

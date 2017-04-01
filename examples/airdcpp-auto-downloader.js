@@ -23,7 +23,8 @@ const SettingDefinitions = [
 				file_type: 'any',
 			}
 		],
-		type: 'list_object',
+		type: 'list',
+		item_type: 'struct',
 		definitions: [
 			...Utils.searchQueryDefinitions,
 			{

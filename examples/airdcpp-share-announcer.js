@@ -23,7 +23,8 @@ const SettingDefinitions = [
 		title: 'Hub addresses',
 		default_value: [],
 		help: 'Leave empty to enable in all hubs',
-		type: 'list_string',
+		type: 'list',
+		item_type: 'string',
 		optional: true,
 	}
 ];

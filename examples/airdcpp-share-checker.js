@@ -33,7 +33,8 @@ const SettingDefinitions = [
 				report_message: 'ISO file(s) over 500 MB',
 			}
 		],
-		type: 'list_object',
+		type: 'list',
+		item_type: 'struct',
 		definitions: [
 			...Utils.searchQueryDefinitions,
 			{
