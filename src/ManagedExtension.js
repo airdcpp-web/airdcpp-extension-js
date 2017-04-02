@@ -9,19 +9,9 @@ const defaultSocketOptions = {
 	]
 };
 
-// Logging
-//const fs = require('fs');
-/*const messageLog = fs.createWriteStream(process.argv[4] + 'output.log', { flags: 'a' });
-const errorLog = fs.createWriteStream(process.argv[4] + 'error.log', { flags: 'a' });
-
-process.stdout.write = messageLog.write.bind(messageLog);
-process.stderr.write = errorLog.write.bind(errorLog);*/
-
 
 const argv = require('minimist')(process.argv.slice(2));
 
-
-// This file will later be moved to airdcpp-apisocket
 
 module.exports = function(ScriptEntry, userSocketOptions = {}) {
 	let onStart, onStop;
@@ -95,7 +85,7 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 	};
 
 	const onSigint = () => {
-		logStatus('Exit requested');
+		socket.logger.info('Exit requested');
 		process.exit();
 	};
 
