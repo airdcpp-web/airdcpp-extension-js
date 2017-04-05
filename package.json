@@ -18,16 +18,15 @@
     "airdcpp-extensions"
   ],
   "dependencies": {
-    "airdcpp-apisocket": "1.0.0-beta.12",
+    "airdcpp-apisocket": "^1.0.0-rc",
     "chalk": "^1.1.3",
     "minimist": "^1.2.0",
     "websocket": "^1.0.24"
   },
   "devDependencies": {
-    "airdcpp-extension-settings": "0.0.1",
+    "airdcpp-extension-settings": "^0.0.2",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.1",
-    "babel-loader": "^6.3.2",
     "babel-plugin-transform-object-assign": "^6.5.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
