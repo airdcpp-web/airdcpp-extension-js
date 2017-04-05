@@ -30,6 +30,7 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 		name: argv.name,
 		configPath: argv.settingsPath,
 		logPath: argv.logPath,
+		debugMode: argv.debug,
 		set onStart(handler) {
 			onStart = handler;
 		},

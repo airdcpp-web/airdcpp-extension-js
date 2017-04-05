@@ -36,6 +36,7 @@ module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuf
 		name: getExtensionName(),
 		configPath: parseDataDirectory(dataPath, 'settings'),
 		logPath: parseDataDirectory(dataPath, 'logs'),
+		debugMode: process.env.NODE_ENV !== 'production',
 		set onStart(handler) {
 			onStart = handler;
 		},
