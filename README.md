@@ -54,7 +54,7 @@ Object containing generic information about the extension.
 | **name** | string | Name of the extension |
 | **configPath** | string | Path that the extension should use when saving possible config files |
 | **logPath** | string | Path that the extension should use when saving possible additional log files (saving of console output will be handled by the application itself) |
-| **debugMode** | boolean | Whether the extension was started in a debug mode |
+| **debugMode** | boolean | Whether the extension was started in a debug mode. When launching a remote extension, this is `true` unless the `NODE_ENV` environment variable has been set to `production`. |
 | **onStart** | function | Called when the extension is started. Receives information about the current API session as parameter. |
 | **onStop** | string | Called when the extension is stopped. All pending extension tasks/timers should be cancelled. |
 
