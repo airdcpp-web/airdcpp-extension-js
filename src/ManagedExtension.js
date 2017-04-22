@@ -21,7 +21,7 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 			logLevel: argv.debug ? 'verbose' : 'info',
 			...defaultSocketOptions,
 			...userSocketOptions,
-			url: argv.apiUrl
+			url: 'ws://' + argv.apiUrl
 		},
 		require('websocket').w3cwebsocket
 	);
