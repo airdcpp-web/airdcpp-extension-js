@@ -24,7 +24,7 @@
     "websocket": "^1.0.24"
   },
   "devDependencies": {
-    "airdcpp-extension-settings": "^0.0.2",
+    "airdcpp-extension-settings": "^1.0.0",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.1",
     "babel-plugin-transform-object-assign": "^6.5.0",
