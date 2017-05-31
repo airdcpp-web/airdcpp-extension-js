@@ -17,9 +17,9 @@ Remote extension can be useful for development use or when the extension needs t
 
 ## Running the examples
 
-There are a few example extensions demonstrating how to use the modules in real projects. The examples are simplified and not meant for regular use (publishing improved versions of them as standalone extensions is perfectly fine though).
+There are a few example extensions demonstrating how to use the modules in real projects. The examples are simplified and not meant for regular use but you may use the code for publishing standalone extensions with the same functionality.
 
-Examples require Node.js (version 7.7.0 or newer) and [AirDC++ Web Client](https://airdcpp-web.github.io) 2.0.0 or newer to work. Please note the [hubsoft-specific remarks](https://airdcpp-web.github.io/docs/general/running-a-hub.html) as the examples may not work with all hubsofts.
+Node.js version 7.7.0 or newer is required for running the examples. Please note the [hubsoft-specific remarks](https://airdcpp-web.github.io/docs/general/running-a-hub.html) as the examples may not work with all hubsofts.
 
 1. Clone the repository
 2. Install dependencies and build the project by running the following commands in the main directory
