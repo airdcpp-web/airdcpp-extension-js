@@ -51,7 +51,7 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 		if (lastPing + 10000 < new Date().getTime()) {
 			socket.logger.error('Socket timed out, exiting...');
 			stopExtension();
-			process.exit(1);
+			process.exit(124);
 			return;
 		}
 
