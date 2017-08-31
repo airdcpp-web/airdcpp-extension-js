@@ -32,6 +32,8 @@ Node.js version 7.7.0 or newer is required for running the examples. Please note
 4. Edit ``examples/settings.js`` to contain the correct API URL and user credentials
 5. Run the wanted example with `node run_example.js example_name_without_file_extension` (such as `node run_example.js airdcpp-chat-filter`). Debian/Ubuntu users may have to use the command `nodejs` instead of `node`.
 
+Visual Studio Code users may also use the included launch configurations to run the examples.
+
 
 ## Extension entry structure
 

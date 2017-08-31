@@ -1,0 +1,38 @@
+{
+	// Use IntelliSense to learn about possible Node.js debug attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Launch auto downloader",
+			"program": "${workspaceRoot}\\run_example.js",
+			"cwd": "${workspaceRoot}",
+			"args": [ "airdcpp-auto-downloader" ]
+		}, {
+			"type": "node",
+			"request": "launch",
+			"name": "Launch chat filter",
+			"program": "${workspaceRoot}\\run_example.js",
+			"cwd": "${workspaceRoot}",
+			"args": [ "airdcpp-chat-filter" ]
+		}, {
+			"type": "node",
+			"request": "launch",
+			"name": "Launch share announcer",
+			"program": "${workspaceRoot}\\run_example.js",
+			"cwd": "${workspaceRoot}",
+			"args": [ "airdcpp-share-announcer" ]
+		}, {
+			"type": "node",
+			"request": "launch",
+			"name": "Launch share checker",
+			"program": "${workspaceRoot}\\run_example.js",
+			"cwd": "${workspaceRoot}",
+			"args": [ "airdcpp-share-checker" ]
+		}
+	]
+}
