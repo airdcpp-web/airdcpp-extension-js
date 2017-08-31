@@ -72,7 +72,9 @@ module.exports = function (socket, extension) {
 		const instance = await socket.post('search');
 
 		// Add instance-specific listener for results
-		await socket.addListener('search', 'search_hub_searches_sent', onSearchSent.bind(this, item, instance), instance.id);
+		const unsubscribe = await socket.addListener('search', 'search_hub_searches_sent', searchInfo => {
+			onSearchSent(item, instance, unsubscribe, searchInfo);
+		}, instance.id);
 
 		// Perform the actual search
 		const searchQueueInfo = await socket.post(`search/${instance.id}/hub_search`, {
@@ -86,24 +88,24 @@ module.exports = function (socket, extension) {
 		});
 	};
 
-	const onSearchSent = async (item, instance, searchInfo) => {
+	const onSearchSent = async (item, instance, unsubscribe, searchInfo) => {
 		// Collect the results for 5 seconds
 		await Utils.sleep(5000);
 
 		// Get only the first result (results are sorted by relevance)
 		const results = await socket.get(`search/${instance.id}/results/0/1`);
 
-		if (results.length === 0) {
-			// Nothing was found
-			return;
+		if (results.length > 0) {
+			// We have results, download the best one
+			const result = results[0];
+			socket.post(`search/${instance.id}/results/${result.id}/download`, {
+				priority: item.priority,
+				target_directory: item.target_directory,
+			});
 		}
 
-		// Download the result
-		const result = results[0];
-		socket.post(`search/${instance.id}/results/${result.id}/download`, {
-			priority: item.priority,
-			target_directory: item.target_directory,
-		});
+		// Remove listener for this search instance
+		unsubscribe();
 	};
 
 	extension.onStart = async () => {
