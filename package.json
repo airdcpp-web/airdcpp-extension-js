@@ -18,10 +18,10 @@
     "airdcpp-extensions"
   ],
   "dependencies": {
-    "airdcpp-apisocket": "^1.0.0-rc",
-    "chalk": "^1.1.3",
+    "airdcpp-apisocket": "^1.0.0",
+    "chalk": "^2.0.0",
     "minimist": "^1.2.0",
-    "websocket": "^1.0.24"
+    "websocket": "^1.0.25"
   },
   "devDependencies": {
     "airdcpp-extension-settings": "^1.0.1",
@@ -30,9 +30,9 @@
     "babel-plugin-transform-object-assign": "^6.5.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
-    "cross-env": "^5.0.1",
+    "cross-env": "^5.1.3",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.5.2"
+    "rimraf": "^2.6.2"
   },
   "author": "maksis",
   "license": "MIT",
