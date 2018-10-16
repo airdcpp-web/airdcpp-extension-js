@@ -1,6 +1,6 @@
 {
   "name": "airdcpp-extension",
-  "version": "0.1.4",
+  "version": "1.0.0",
   "description": "AirDC++ extension development modules for JavaScript",
   "main": "dist/index.js",
   "scripts": {
