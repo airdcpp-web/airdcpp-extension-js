@@ -1,4 +1,4 @@
-const ApiSocket = require('airdcpp-apisocket');
+const API = require('airdcpp-apisocket');
 
 const defaultSocketOptions = {
 	// API settings
@@ -16,29 +16,15 @@ const argv = require('minimist')(process.argv.slice(2));
 module.exports = function(ScriptEntry, userSocketOptions = {}) {
 	let onStart, onStop;
 
-	const socket = ApiSocket(
+	const socket = API.Socket(
 		{
 			logLevel: argv.debug ? 'verbose' : 'info',
 			...defaultSocketOptions,
 			...userSocketOptions,
-			url: 'ws://' + argv.apiUrl
+			url: `ws://${argv.apiUrl}`
 		},
 		require('websocket').w3cwebsocket
 	);
-
-	const Extension = ScriptEntry(socket, {
-		name: argv.name,
-		configPath: argv.settingsPath,
-		logPath: argv.logPath,
-		debugMode: argv.debug,
-		set onStart(handler) {
-			onStart = handler;
-		},
-		set onStop(handler) {
-			onStop = handler;
-		},
-	});
-
 
 	// Ping handler
 	// If the application didn't perform a clean exit, the connection may stay alive indefinitely
@@ -96,9 +82,24 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 	process.on('SIGINT', onSigint);
 	process.on('SIGTERM', onSigint);
 
+
+	// Run extension
+	ScriptEntry(socket, {
+		name: argv.name,
+		configPath: argv.settingsPath,
+		logPath: argv.logPath,
+		debugMode: argv.debug,
+		set onStart(handler) {
+			onStart = handler;
+		},
+		set onStop(handler) {
+			onStop = handler;
+		},
+	});
+
 	socket.reconnect(argv.authToken, false)
 		.catch(error => {
-			socket.logger.error('Failed to connect to server ' + argv.apiUrl + ', exiting...');
+			socket.logger.error(`Failed to connect to server ${argv.apiUrl}, exiting...`);
 			stopExtension();
 			process.exit(1);
 		});

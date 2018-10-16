@@ -3,7 +3,7 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-const ApiSocket = require('airdcpp-apisocket');
+const API = require('airdcpp-apisocket');
 
 
 const parseDataDirectory = (dataPath, directoryName) => {
@@ -17,11 +17,11 @@ const parseDataDirectory = (dataPath, directoryName) => {
 };
 
 const logStatus = (msg) => {
-	console.log(chalk.cyan.bold('[EXT] ' + msg));
+	console.log(chalk.cyan.bold(`[EXT] ${msg}`));
 };
 
 const logError = (msg) => {
-	console.log(chalk.red.bold('[EXT] ' + msg));
+	console.log(chalk.red.bold(`[EXT] ${msg}`));
 };
 
 module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuffix }) {
@@ -31,24 +31,12 @@ module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuf
 
 	let onStart, onStop, running = false;
 
-	const socket = ApiSocket(socketOptions, require('websocket').w3cwebsocket);
-	const Extension = Entry(socket, {
-		name: getExtensionName(),
-		configPath: parseDataDirectory(dataPath, 'settings'),
-		logPath: parseDataDirectory(dataPath, 'logs'),
-		debugMode: process.env.NODE_ENV !== 'production',
-		set onStart(handler) {
-			onStart = handler;
-		},
-		set onStop(handler) {
-			onStop = handler;
-		},
-	});
+	const socket = API.Socket(socketOptions, require('websocket').w3cwebsocket);
 
 	const onExtensionRegistered = (sessionInfo) => {
 		// Use timeout so that we won't throw if the code doesn't work
 		setTimeout(_ => {
-			logStatus('Extension ' + getExtensionName() + ' registered, starting the entry...');
+			logStatus(`Extension ${getExtensionName()} registered, starting the entry...`);
 
 			// Run the script
 			if (onStart) {
@@ -109,6 +97,19 @@ module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuf
 	// Ctrl+C
 	process.on('SIGINT', onSigint);
 
+	// Launch extension
+	Entry(socket, {
+		name: getExtensionName(),
+		configPath: parseDataDirectory(dataPath, 'settings'),
+		logPath: parseDataDirectory(dataPath, 'logs'),
+		debugMode: process.env.NODE_ENV !== 'production',
+		set onStart(handler) {
+			onStart = handler;
+		},
+		set onStop(handler) {
+			onStop = handler;
+		},
+	});
 
 	logStatus('Connecting socket...');
 	socket.connect();
