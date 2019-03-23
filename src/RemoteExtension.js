@@ -56,9 +56,10 @@ module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuf
 			return reduced;
 		}, {});
 
-		return Object.assign(ret, {
+		return {
+			...ret,
 			name: getExtensionName(),
-		});
+		};
 	};
 
 	const stopExtension = () => {

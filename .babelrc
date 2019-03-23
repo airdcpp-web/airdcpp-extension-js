@@ -1,6 +1,10 @@
 {
-  "presets": [ "es2015", "stage-1" ],
-  "plugins": [
-    "transform-object-assign"
-  ]
+  "presets": [ 
+    ["@babel/env", {
+      "targets": {
+        "node": "0.10"
+      }
+    }]
+  ],
+  "sourceType": "unambiguous"
 }
