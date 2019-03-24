@@ -99,7 +99,7 @@ module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuf
 	process.on('SIGINT', onSigint);
 
 	// Launch extension
-	Entry(socket, {
+	(Entry.default || Entry)(socket, {
 		name: getExtensionName(),
 		configPath: parseDataDirectory(dataPath, 'settings'),
 		logPath: parseDataDirectory(dataPath, 'logs'),

@@ -84,7 +84,7 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 
 
 	// Run extension
-	ScriptEntry(socket, {
+	(ScriptEntry.default || ScriptEntry)(socket, {
 		name: argv.name,
 		configPath: argv.settingsPath,
 		logPath: argv.logPath,
