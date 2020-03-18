@@ -19,18 +19,18 @@
   ],
   "dependencies": {
     "airdcpp-apisocket": "^2.2.0",
-    "chalk": "^2.4.2",
-    "minimist": "^1.2.0",
-    "websocket": "^1.0.30"
+    "chalk": "^3.0.0",
+    "minimist": "^1.2.5",
+    "websocket": "^1.0.31"
   },
   "devDependencies": {
-    "@babel/cli": "^7.6.4",
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
     "airdcpp-extension-settings": "^1.1.0",
-    "cross-env": "^6.0.3",
-    "mkdirp": "^0.5.1",
-    "rimraf": "^3.0.0"
+    "cross-env": "^7.0.2",
+    "mkdirp": "^1.0.3",
+    "rimraf": "^3.0.2"
   },
   "author": "maksis",
   "license": "MIT",
