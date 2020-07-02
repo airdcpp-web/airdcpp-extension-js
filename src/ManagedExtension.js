@@ -11,7 +11,7 @@ const defaultSocketOptions = {
 
 
 const argv = require('minimist')(process.argv.slice(2));
-
+const EXIT_CODE_RESTART = 124;
 
 module.exports = function(ScriptEntry, userSocketOptions = {}) {
 	let onStart, onStop;
@@ -43,7 +43,7 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 
 		socket.post('sessions/activity')
 			.then(_ => lastPing = new Date().getTime())
-			.catch(_ => socket.logger.error('Ping failed'));
+			.catch(e => socket.logger.error(`Ping failed: ${e.message}`));
 	};
 
 
@@ -59,10 +59,17 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 		}, 10);
 	};
 
-	socket.onDisconnected = () => {
+	socket.onDisconnected = (reason, _code, wasClean) => {
 		stopExtension();
-		socket.logger.info('Socket disconnected, exiting');
-		process.exit(1);
+		if (wasClean) {
+			socket.logger.info('Socket disconnected (clean), exiting');
+			process.exit(1);
+		} else {
+			// Unclean disconnects shouldn't be common with local extension, but may happen if the server is under heavy load
+			// https://github.com/airdcpp-web/airdcpp-webclient/issues/356
+			socket.logger.info(`Socket disconnected (unclean, ${reason}), requesting restart`);
+			process.exit(EXIT_CODE_RESTART);	
+		}
 	};
 
 	const stopExtension = () => {

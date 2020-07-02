@@ -18,18 +18,18 @@
     "airdcpp-extensions"
   ],
   "dependencies": {
-    "airdcpp-apisocket": "^2.2.0",
-    "chalk": "^3.0.0",
+    "airdcpp-apisocket": "^2.3.0-beta.3",
+    "chalk": "^4.1.0",
     "minimist": "^1.2.5",
     "websocket": "^1.0.31"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.7",
-    "@babel/preset-env": "^7.8.7",
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
     "airdcpp-extension-settings": "^1.1.0",
     "cross-env": "^7.0.2",
-    "mkdirp": "^1.0.3",
+    "mkdirp": "^1.0.4",
     "rimraf": "^3.0.2"
   },
   "author": "maksis",
