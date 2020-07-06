@@ -35,31 +35,6 @@ module.exports = function (socket, extension) {
 		definitions: SettingDefinitions,
 	});
 
-	const onOutgoingHubMessage = (message, accept, reject) => {
-		const statusMessage = checkChatCommand(message.text);
-		if (statusMessage) {
-			socket.post('hubs/status_message', {
-				hub_urls: [ message.hub_url ],
-				text: statusMessage,
-				severity: 'info',
-			});
-		}
-
-		accept();
-	};
-
-	const onOutgoingPrivateMessage = (message, accept, reject) => {
-		const statusMessage = checkChatCommand(message.text);
-		if (statusMessage) {
-			socket.post(`private_chat/${message.user.cid}/status_message`, {
-				text: statusMessage,
-				severity: 'info',
-			});
-		}
-
-		accept();
-	};
-
 	const onIncomingMessage = (message, accept, reject) => {
 		if (
 			allowFilterUser(message.from) && // actual sender of the message
@@ -89,67 +64,90 @@ module.exports = function (socket, extension) {
 		return true;
 	};
 
-	// Basic chat command handling, returns possible status message to post
-	const checkChatCommand = (text) => {
-		if (text.length === 0 || text[0] !== '/') {
-			return null;
-		}
+	const checkFilterArgs = (args) => {
+		const ignoredWords = settings.getValue('ignored_words');
+		switch (args[0]) {
+			case 'add': {
+				if (args.length < 2) {
+					return 'Chat filter: not enough parameters';
+				}
 
-		if (text.indexOf('/help') === 0) {
-			return `
+				const word = args[1];
+				if (ignoredWords.indexOf(word) !== -1) {
+					return `Chat filter: word "${word}" is filtered already`;
+				}
+
+				settings.setValue('ignored_words', [
+					...ignoredWords,
+					word
+				]);
+
+				return `Chat filter: word "${word}" was added`;
+			}
+			case 'remove': {
+				if (args.length < 2) {
+					return 'Chat filter: not enough parameters';
+				}
+
+				const word = args[1];
+				const wordIndex = ignoredWords.indexOf(word);
+				if (wordIndex === -1) {
+					return `Chat filter: ignored word "${word}" was not found`;
+				}
+
+				settings.setValue('ignored_words', ignoredWords.filter((_, curIndex) => wordIndex !== curIndex));
+				return `Chat filter: word "${word}" was removed`;
+			}
+			case 'list': {
+				return `Chat filter: ${ignoredWords.join(', ')}`;
+			}
+			default: {
+				return 'Chat filter: unknown command';
+			}
+		}
+	}
+
+	// Basic chat command handling, returns possible status message to post
+	const checkChatCommand = ({ command, args }) => {
+		switch (command) {
+			case 'help': {
+				return `
 
 	Chat filter commands
 
 	/chatfilter add <word>
 	/chatfilter remove <word>
 	/chatfilter list
-
-			`;
-		} else if (text.indexOf('/chatfilter') === 0) {
-			const params = text.split(' ');
-			if (params.length < 2) {
-				return 'Chat filter: not enough parameters';
+			
+				`;
 			}
-
-			const ignoredWords = settings.getValue('ignored_words');
-			if (params[1] === 'add') {
-				if (params.length < 3) {
+			case 'chatfilter': {
+				if (args.length === 0) {
 					return 'Chat filter: not enough parameters';
 				}
 
-				if (ignoredWords.indexOf(params[2]) !== -1) {
-					return 'Chat filter: word is filtered already';
-				}
-
-				settings.setValue('ignored_words', [
-					...ignoredWords,
-					params[2]
-				]);
-
-				return `Chat filter: word ${params[2]} was added`;
-			} else if (params[1] == 'remove') {
-				if (params.length < 3) {
-					return 'Chat filter: not enough parameters';
-				}
-
-				const wordIndex = ignoredWords.indexOf(params[2]);
-				if (wordIndex === -1) {
-					return 'Chat filter: ignored word not found';
-				}
-
-				settings.setValue('ignored_words', ignoredWords.filter((_, curIndex) => wordIndex !== curIndex));
-				return `Chat filter: word ${params[2]} was removed`;
-			} else if (params[1] == 'list') {
-				return `Chat filter: ${ignoredWords.join(', ')}`;
-			} else {
-				return 'Chat filter: unknown command';
+				return checkFilterArgs(args);
 			}
 		}
 
 		return null;
 	};
 
-	extension.onStart = async () => {
+	const onChatCommand = (type, data, entityId) => {
+		const statusMessage = checkChatCommand(data);
+		if (statusMessage) {
+			socket.post(`${type}/${entityId}/status_message`, {
+				text: statusMessage,
+				severity: 'info',
+			});
+		}
+	};
+
+	extension.onStart = async (sessionInfo) => {
+		if (sessionInfo.system_info.api_feature_level < 4) {
+			throw new Error(`API feature level 4 is required for running this example`);
+		}
+
 		await settings.load();
 
 		const subscriberInfo = {
@@ -157,10 +155,12 @@ module.exports = function (socket, extension) {
 			name: 'Chat filter',
 		};
 
+		// Incoming message hooks
 		socket.addHook('hubs', 'hub_incoming_message_hook', onIncomingMessage, subscriberInfo);
 		socket.addHook('private_chat', 'private_chat_incoming_message_hook', onIncomingMessage, subscriberInfo);
 
-		socket.addHook('hubs', 'hub_outgoing_message_hook', onOutgoingHubMessage, subscriberInfo);
-		socket.addHook('private_chat', 'private_chat_outgoing_message_hook', onOutgoingPrivateMessage, subscriberInfo);
+		// Chat command listeners
+		socket.addListener('hubs', 'hub_text_command', onChatCommand.bind(this, 'hubs'));
+		socket.addListener('private_chat', 'private_chat_text_command', onChatCommand.bind(this, 'private_chat'));
 	};
 };
