@@ -1,6 +1,20 @@
-const API = require('airdcpp-apisocket');
+import { Socket, APISocketOptions } from 'airdcpp-apisocket';
+import minimist from 'minimist';
 
-const defaultSocketOptions = {
+import { ScriptEntryType, StartHandler, StopHandler } from './types';
+
+
+export interface StartupArgs {
+	name: string;
+	configPath: string;
+	logPath: string;
+	debug: boolean;
+	apiUrl: string;
+	settingsPath: string;
+	authToken: string;
+}
+
+const defaultSocketOptions: Partial<APISocketOptions> = {
 	// API settings
 	autoReconnect: false,
 	
@@ -9,14 +23,19 @@ const defaultSocketOptions = {
 	]
 };
 
+const argv = minimist(process.argv.slice(2)) as any as StartupArgs;
 
-const argv = require('minimist')(process.argv.slice(2));
 const EXIT_CODE_RESTART = 124;
 
-module.exports = function(ScriptEntry, userSocketOptions = {}) {
-	let onStart, onStop;
 
-	const socket = API.Socket(
+export const ManagedExtension = (
+	ScriptEntry: ScriptEntryType, 
+	userSocketOptions: Partial<APISocketOptions> = {}
+) => {
+	let onStart: StartHandler | undefined;
+	let onStop: StopHandler | undefined;
+
+	const socket = Socket(
 		{
 			logLevel: argv.debug ? 'verbose' : 'info',
 			...defaultSocketOptions,
@@ -91,15 +110,20 @@ module.exports = function(ScriptEntry, userSocketOptions = {}) {
 
 
 	// Run extension
-	(ScriptEntry.default || ScriptEntry)(socket, {
+	const EntryFunction = typeof ScriptEntry === 'function' ? ScriptEntry : ScriptEntry.default;
+	if (!EntryFunction) {
+		throw 'Extesion entry is not a function ';
+	}
+
+	EntryFunction(socket, {
 		name: argv.name,
 		configPath: argv.settingsPath,
 		logPath: argv.logPath,
 		debugMode: argv.debug,
-		set onStart(handler) {
+		set onStart(handler: StartHandler) {
 			onStart = handler;
 		},
-		set onStop(handler) {
+		set onStop(handler: StopHandler) {
 			onStop = handler;
 		},
 	});

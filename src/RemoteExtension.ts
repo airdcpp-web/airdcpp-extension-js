@@ -1,12 +1,13 @@
-const chalk = require('chalk');
-const fs = require('fs');
-const mkdirp = require('mkdirp');
-const path = require('path');
+import { SessionInfo, ScriptEntryType, StartHandler, StopHandler } from './types';
+import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 
-const API = require('airdcpp-apisocket');
+import chalk from 'chalk';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
+import path from 'path';
 
 
-const parseDataDirectory = (dataPath, directoryName) => {
+const parseDataDirectory = (dataPath: string, directoryName: string) => {
 	const directoryPath = path.resolve(dataPath, directoryName) + path.sep;
 
 	if (!fs.existsSync(directoryPath)){
@@ -16,24 +17,38 @@ const parseDataDirectory = (dataPath, directoryName) => {
 	return directoryPath;
 };
 
-const logStatus = (msg) => {
+const logStatus = (msg: string) => {
 	console.log(chalk.cyan.bold(`[EXT] ${msg}`));
 };
 
-const logError = (msg) => {
+const logError = (msg: string) => {
 	console.log(chalk.red.bold(`[EXT] ${msg}`));
 };
 
-module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuffix }) {
+interface ExtensionInfo {
+	packageInfo: {
+		name: string;
+	};
+	dataPath: string;
+	nameSuffix: string;
+};
+
+export const RemoteExtension = (
+	Entry: ScriptEntryType, 
+	socketOptions: APISocketOptions, 
+	{ packageInfo, dataPath, nameSuffix }: ExtensionInfo
+) => {
 	const getExtensionName = () => {
 		return nameSuffix ? (packageInfo.name + nameSuffix) : packageInfo.name;
 	};
 
-	let onStart, onStop, running = false;
+	let onStart: StartHandler | undefined;
+	let onStop: StopHandler | undefined;
+	let running = false;
 
-	const socket = API.Socket(socketOptions, require('websocket').w3cwebsocket);
+	const socket = Socket(socketOptions, require('websocket').w3cwebsocket);
 
-	const onExtensionRegistered = (sessionInfo) => {
+	const onExtensionRegistered = (sessionInfo: SessionInfo) => {
 		// Use timeout so that we won't throw if the code doesn't work
 		setTimeout(_ => {
 			logStatus(`Extension ${getExtensionName()} registered, starting the entry...`);
@@ -80,11 +95,14 @@ module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuf
 		logStatus('Socket connected, registering extension...');
 
 		socket.post('extensions', parseExtension())
-			.then(_ => {
-				onExtensionRegistered(sessionInfo);
-			}, e => {
-				logError('Failed to register the extension', e);
-			});
+			.then(
+				_ => {
+					onExtensionRegistered(sessionInfo);
+				}, 
+				(e: Error) => {
+					logError(`Failed to register the extension: ${e.message}`);
+				}
+			);
 	};
 
 	socket.onDisconnected = () => {
@@ -99,15 +117,20 @@ module.exports = function(Entry, socketOptions, { packageInfo, dataPath, nameSuf
 	process.on('SIGINT', onSigint);
 
 	// Launch extension
-	(Entry.default || Entry)(socket, {
+	const EntryFunction = typeof Entry === 'function' ? Entry : Entry.default;
+	if (!EntryFunction) {
+		throw 'Extesion entry is not a function ';
+	}
+
+	EntryFunction(socket, {
 		name: getExtensionName(),
 		configPath: parseDataDirectory(dataPath, 'settings'),
 		logPath: parseDataDirectory(dataPath, 'logs'),
 		debugMode: process.env.NODE_ENV !== 'production',
-		set onStart(handler) {
+		set onStart(handler: StartHandler) {
 			onStart = handler;
 		},
-		set onStop(handler) {
+		set onStop(handler: StopHandler) {
 			onStop = handler;
 		},
 	});
