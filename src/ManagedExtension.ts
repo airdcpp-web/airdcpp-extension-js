@@ -45,6 +45,8 @@ export const ManagedExtension = (
 		require('websocket').w3cwebsocket
 	);
 
+	socket.logger.verbose('Starting the extension', JSON.stringify(process.argv), JSON.stringify(argv, null, 2));
+
 	// Ping handler
 	// If the application didn't perform a clean exit, the connection may stay alive indefinitely
 	// (happens at least on Windows, TODO: see if it can be solved)

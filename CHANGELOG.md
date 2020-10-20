@@ -1,3 +1,7 @@
+### 1.3.0 (2020-10-20)
+
+- Migrate to TypeScript
+
 ### 1.2.0 (2020-07-11)
 
 - Managed extensions: request the extension to be restarted in case of unclean socket disconnects (https://github.com/airdcpp-web/airdcpp-webclient/issues/356)
