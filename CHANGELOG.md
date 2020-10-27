@@ -1,6 +1,7 @@
 ### 1.3.0 (2020-10-20)
 
 - Migrate to TypeScript
+- Log the supplied command line args on startup
 
 ### 1.2.0 (2020-07-11)
 
