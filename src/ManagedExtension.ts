@@ -9,6 +9,7 @@ export interface StartupArgs {
 	configPath: string;
 	logPath: string;
 	debug: boolean;
+	signalReady?: boolean;
 	apiUrl: string;
 	settingsPath: string;
 	authToken: string;
@@ -71,11 +72,17 @@ export const ManagedExtension = (
 	// Socket state handlers
 	socket.onConnected = (sessionInfo) => {
 		// Use timeout so that we won't throw if the code doesn't work
-		setTimeout(_ => {
+		setTimeout(() => {
 			setInterval(handlePing, 4000);
 			
 			if (onStart) {
-				onStart(sessionInfo);
+				Promise.resolve(onStart(sessionInfo))
+					.then(() => {
+						if (argv.signalReady) {
+							socket.post(`extensions/${argv.name}/ready`)
+								.catch(e => socket.logger.error(`Failed to signal ready state: ${e.message}`));
+						}
+					});
 			}
 		}, 10);
 	};
@@ -114,7 +121,7 @@ export const ManagedExtension = (
 	// Run extension
 	const EntryFunction = typeof ScriptEntry === 'function' ? ScriptEntry : ScriptEntry.default;
 	if (!EntryFunction) {
-		throw 'Extesion entry is not a function ';
+		throw 'Extension entry is not a function ';
 	}
 
 	EntryFunction(socket, {

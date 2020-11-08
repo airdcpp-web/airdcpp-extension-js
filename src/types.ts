@@ -5,7 +5,7 @@ export interface SessionInfo {
 
 }
 
-export type StartHandler = (sessionInfo: SessionInfo) => any;
+export type StartHandler = (sessionInfo: SessionInfo) => void | Promise<void>;
 export type StopHandler = () => any;
 
 export interface ExtensionEntryData {	

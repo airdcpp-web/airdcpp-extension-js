@@ -119,7 +119,7 @@ export const RemoteExtension = (
 	// Launch extension
 	const EntryFunction = typeof Entry === 'function' ? Entry : Entry.default;
 	if (!EntryFunction) {
-		throw 'Extesion entry is not a function ';
+		throw 'Extension entry is not a function ';
 	}
 
 	EntryFunction(socket, {
