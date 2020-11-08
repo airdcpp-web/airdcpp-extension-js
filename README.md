@@ -1,4 +1,4 @@
-# AirDC++ extension development modules for JavaScript
+# AirDC++ extension development modules for JavaScript [![Travis][build-badge]][build] [![npm package][npm-badge]][npm] [![Coverage][coverage-badge]][coverage]
 
 >If you are new to AirDC++ extension development, you should first see the [`airdcpp-create-extension`](https://github.com/airdcpp-web/airdcpp-create-extension/) starter project for a complete introduction.
 
@@ -109,3 +109,12 @@ See [airdcpp-apisocket](https://github.com/airdcpp-web/airdcpp-apisocket-js/blob
 ### Example usage
 
 See the [dev server of `airdcpp-create-extension`](https://github.com/airdcpp-web/airdcpp-create-extension/tree/master/devtools) starter project.
+
+[build-badge]: https://img.shields.io/travis/airdcpp-web/airdcpp-extension-js/master.svg?style=flat-square
+[build]: https://travis-ci.org/airdcpp-web/airdcpp-extension-js
+
+[npm-badge]: https://img.shields.io/npm/v/airdcpp-release-validator.svg?style=flat-square
+[npm]: https://www.npmjs.org/package/airdcpp-extension
+
+[coverage-badge]: https://codecov.io/gh/airdcpp-web/airdcpp-extension-js/branch/master/graph/badge.svg
+[coverage]: https://codecov.io/gh/airdcpp-web/airdcpp-extension-js
