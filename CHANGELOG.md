@@ -1,3 +1,7 @@
+### 1.3.1 (2020-10-27)
+
+- Add a missing runtime dependency for RemoteExtension
+
 ### 1.3.0 (2020-10-20)
 
 - Migrate to TypeScript
