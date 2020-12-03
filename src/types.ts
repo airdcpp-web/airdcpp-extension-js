@@ -5,8 +5,8 @@ export interface SessionInfo {
 
 }
 
-export interface AddressInfo {
-	url: string;
+export interface ServerInfo {
+	address: string;
 	secure: boolean;
 }
 
@@ -22,7 +22,7 @@ export interface ExtensionEntryData {
 	configPath: string;
 	logPath: string;
 	debugMode: boolean;
-	api: AddressInfo;
+	server: ServerInfo;
 	onStart: StartHandler;
 	onStop: StopHandler;
 }

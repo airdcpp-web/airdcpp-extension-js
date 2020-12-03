@@ -2,6 +2,7 @@ import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 import minimist from 'minimist';
 
 import { ScriptEntryType, StartHandler, StopHandler } from './types';
+import { parseServerInfo } from './utils';
 
 
 export interface StartupArgs {
@@ -36,12 +37,13 @@ export const ManagedExtension = (
 	let onStart: StartHandler | undefined;
 	let onStop: StopHandler | undefined;
 
+	const connectUrl = `ws://${argv.apiUrl}`;
 	const socket = Socket(
 		{
 			logLevel: argv.debug ? 'verbose' : 'info',
 			...defaultSocketOptions,
 			...userSocketOptions,
-			url: `ws://${argv.apiUrl}`
+			url: connectUrl, 
 		},
 		require('websocket').w3cwebsocket
 	);
@@ -129,10 +131,7 @@ export const ManagedExtension = (
 		configPath: argv.settingsPath,
 		logPath: argv.logPath,
 		debugMode: argv.debug,
-		api: {
-			url: argv.apiUrl,
-			secure: false,
-		},
+		server: parseServerInfo(connectUrl),
 		set onStart(handler: StartHandler) {
 			onStart = handler;
 		},
