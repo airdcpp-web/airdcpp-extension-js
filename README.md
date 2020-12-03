@@ -57,6 +57,7 @@ Object containing generic information about the extension.
 | **configPath** | string | Path that the extension should use when saving possible config files |
 | **logPath** | string | Path that the extension should use when saving possible additional log files (saving of console output will be handled by the application itself) |
 | **debugMode** | boolean | Whether the extension was started in a debug mode. When launching a remote extension, this is `true` unless the `NODE_ENV` environment variable has been set to `production`. |
+| **api** | object | API information object with `url` (string) and `secure` (boolean) properties (e.g. for accessing the application via HTTP). |
 | **onStart** | function | Called when the extension is started. Receives information about the current API session as parameter. If the [`airdcpp.signalReady`](https://github.com/airdcpp-web/airdcpp-extensions/blob/master/README.md#signalready) property in package.json has been set to true, the application will be notified about a completed initialization when the function returns (async functions are supported). |
 | **onStop** | string | Called when the extension is stopped. All pending extension tasks/timers should be cancelled. |
 

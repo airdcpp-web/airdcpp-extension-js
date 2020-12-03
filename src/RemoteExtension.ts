@@ -1,4 +1,4 @@
-import { SessionInfo, ScriptEntryType, StartHandler, StopHandler } from './types';
+import { SessionInfo, ScriptEntryType, StartHandler, StopHandler, AddressInfo } from './types';
 import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 
 import chalk from 'chalk';
@@ -6,6 +6,24 @@ import fs from 'fs';
 import mkdirp from 'mkdirp';
 import path from 'path';
 
+
+const parseAddress = (url: string): AddressInfo => {
+	if (url.startsWith('ws://')) {
+		return {
+			url: url.substr(5),
+			secure: false,
+		};
+	}
+
+	if (url.startsWith('wss://')) {
+		return {
+			url: url.substr(6),
+			secure: true,
+		};
+	}
+
+	throw new Error(`API URL ${url} is missing the protocol (ws:// or wss://)`);
+};
 
 const parseDataDirectory = (dataPath: string, directoryName: string) => {
 	const directoryPath = path.resolve(dataPath, directoryName) + path.sep;
@@ -127,6 +145,7 @@ export const RemoteExtension = (
 		configPath: parseDataDirectory(dataPath, 'settings'),
 		logPath: parseDataDirectory(dataPath, 'logs'),
 		debugMode: process.env.NODE_ENV !== 'production',
+		api: parseAddress(socketOptions.url),,
 		set onStart(handler: StartHandler) {
 			onStart = handler;
 		},

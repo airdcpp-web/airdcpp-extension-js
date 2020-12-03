@@ -129,6 +129,10 @@ export const ManagedExtension = (
 		configPath: argv.settingsPath,
 		logPath: argv.logPath,
 		debugMode: argv.debug,
+		api: {
+			url: argv.apiUrl,
+			secure: false,
+		},
 		set onStart(handler: StartHandler) {
 			onStart = handler;
 		},

@@ -5,6 +5,15 @@ export interface SessionInfo {
 
 }
 
+export interface AddressInfo {
+	url: string;
+	secure: boolean;
+}
+
+/*export interface ApiInfo extends AddressInfo {
+	token: string;
+}*/
+
 export type StartHandler = (sessionInfo: SessionInfo) => void | Promise<void>;
 export type StopHandler = () => any;
 
@@ -13,6 +22,7 @@ export interface ExtensionEntryData {
 	configPath: string;
 	logPath: string;
 	debugMode: boolean;
+	api: AddressInfo;
 	onStart: StartHandler;
 	onStop: StopHandler;
 }

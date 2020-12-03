@@ -1,6 +1,7 @@
 ### 1.4.0 (2020-xx-xx)
 
 - Add support for signaling when the extension has been initialized ([`airdcpp.signalReady`](https://github.com/airdcpp-web/airdcpp-extensions/blob/master/README.md#signalready) property in package.json)
+- Pass API address information to the extension (URL + secure boolean)
 
 ### 1.3.1 (2020-10-27)
 
