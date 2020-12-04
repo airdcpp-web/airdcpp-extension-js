@@ -10,10 +10,6 @@ export interface ServerInfo {
 	secure: boolean;
 }
 
-/*export interface ApiInfo extends AddressInfo {
-	token: string;
-}*/
-
 export type StartHandler = (sessionInfo: SessionInfo) => void | Promise<void>;
 export type StopHandler = () => any;
 
