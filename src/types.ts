@@ -6,8 +6,8 @@ export interface SessionInfo {
 }
 
 export interface ServerInfo {
-	address: string;
-	secure: boolean;
+  address: string;
+  secure: boolean;
 }
 
 export type StartHandler = (sessionInfo: SessionInfo) => void | Promise<void>;
@@ -15,12 +15,12 @@ export type StopHandler = () => any;
 
 export interface ExtensionEntryData {	
   name: string;
-	configPath: string;
-	logPath: string;
-	debugMode: boolean;
-	server: ServerInfo;
-	onStart: StartHandler;
-	onStop: StopHandler;
+  configPath: string;
+  logPath: string;
+  debugMode: boolean;
+  server: ServerInfo;
+  onStart: StartHandler;
+  onStop: StopHandler;
 }
 
 export type ScriptEntryHandler = (socket: APISocket, extension: ExtensionEntryData) => void;
