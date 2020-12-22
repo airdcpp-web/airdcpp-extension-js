@@ -1,3 +1,7 @@
+### 1.4.1 (2020-12-22)
+
+- Monitor existence of the parent process by using the provided process id argument instead of sending socket messages (requires the latest application version)
+
 ### 1.4.0 (2020-12-04)
 
 - Add support for signaling when the extension has been initialized ([`airdcpp.signalReady`](https://github.com/airdcpp-web/airdcpp-extensions/blob/master/README.md#signalready) property in package.json)
