@@ -1,8 +1,9 @@
 import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 import minimist from 'minimist';
+import { getProcessStateChecker, EXIT_CODE_RESTART } from './process-state-checker';
 
 import { ScriptEntryType, StartHandler, StopHandler } from './types';
-import { parseServerInfo } from './utils';
+import { getSystemInfo, parseServerInfo } from './utils';
 
 
 export interface StartupArgs {
@@ -14,6 +15,7 @@ export interface StartupArgs {
   apiUrl: string;
   settingsPath: string;
   authToken: string;
+  appPid: number | undefined;
 }
 
 const defaultSocketOptions: Partial<APISocketOptions> = {
@@ -26,9 +28,6 @@ const defaultSocketOptions: Partial<APISocketOptions> = {
 };
 
 const argv = minimist(process.argv.slice(2)) as any as StartupArgs;
-
-const EXIT_CODE_RESTART = 124;
-
 
 export const ManagedExtension = (
   ScriptEntry: ScriptEntryType, 
@@ -48,34 +47,28 @@ export const ManagedExtension = (
     require('websocket').w3cwebsocket
   );
 
-  socket.logger.verbose('Starting the extension', JSON.stringify(process.argv), JSON.stringify(argv, null, 2));
+  // socket.logger.verbose(`Node version: ${process.version} ()`);
 
-  // Ping handler
-  // If the application didn't perform a clean exit, the connection may stay alive indefinitely
-  // (happens at least on Windows, TODO: see if it can be solved)
-  // This will avoid leaving zombie extensions running that would also block the log file handles
+  socket.logger.verbose(
+    'Starting the extension', 
+    JSON.stringify(process.argv), 
+    JSON.stringify(argv, null, 2),
+    JSON.stringify(getSystemInfo(), null, 2),
+  );
 
-  let lastPing = new Date().getTime() + 9999;
-
-  const handlePing = () => {
-    if (lastPing + 10000 < new Date().getTime()) {
-      socket.logger.error('Socket timed out, exiting...');
-      stopExtension();
-      process.exit(124);
-      return;
+  const onStopExtension = () => {
+    if (onStop) {
+      onStop();
     }
-
-    socket.post('sessions/activity')
-      .then(_ => lastPing = new Date().getTime())
-      .catch(e => socket.logger.error(`Ping failed: ${e.message}`));
   };
 
+  const processStateChecker = getProcessStateChecker(argv.appPid, socket, onStopExtension);
 
   // Socket state handlers
   socket.onConnected = (sessionInfo) => {
     // Use timeout so that we won't throw if the code doesn't work
     setTimeout(() => {
-      setInterval(handlePing, 4000);
+      processStateChecker.start();
       
       if (onStart) {
         Promise.resolve(onStart(sessionInfo))
@@ -90,7 +83,7 @@ export const ManagedExtension = (
   };
 
   socket.onDisconnected = (reason, _code, wasClean) => {
-    stopExtension();
+    onStopExtension();
     if (wasClean) {
       socket.logger.info('Socket disconnected (clean), exiting');
       process.exit(1);
@@ -102,19 +95,13 @@ export const ManagedExtension = (
     }
   };
 
-  const stopExtension = () => {
-    if (onStop) {
-      onStop();
-    }
-  };
-
   const onSigint = () => {
     socket.logger.info('Exit requested');
     process.exit();
   };
 
   // Closing
-  process.on('exit', stopExtension);
+  process.on('exit', onStopExtension);
 
   process.on('SIGINT', onSigint);
   process.on('SIGTERM', onSigint);
@@ -143,7 +130,7 @@ export const ManagedExtension = (
   socket.reconnect(argv.authToken, false)
     .catch(error => {
       socket.logger.error(`Failed to connect to server ${argv.apiUrl}, exiting...`);
-      stopExtension();
+      onStopExtension();
       process.exit(1);
     });
 }
