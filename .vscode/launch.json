@@ -33,6 +33,12 @@
 			"program": "${workspaceRoot}\\run_example.js",
 			"cwd": "${workspaceRoot}",
 			"args": [ "airdcpp-share-checker" ]
+		}, {
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to Process",
+			"address": "localhost",
+			"port": 5858
 		}
 	]
 }

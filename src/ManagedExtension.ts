@@ -33,6 +33,8 @@ export const ManagedExtension = (
   ScriptEntry: ScriptEntryType, 
   userSocketOptions: Partial<APISocketOptions> = {}
 ) => {
+  process.title = argv.name;
+
   let onStart: StartHandler | undefined;
   let onStop: StopHandler | undefined;
 
