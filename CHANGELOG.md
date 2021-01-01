@@ -1,3 +1,7 @@
+### 1.4.2 (2021-01-01)
+
+- Set the process title to match the extension name
+
 ### 1.4.1 (2020-12-22)
 
 - Monitor existence of the parent process by using the provided process id argument instead of sending socket messages (requires the latest application version)
