@@ -1,6 +1,7 @@
 import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 import minimist from 'minimist';
 import { API } from './api';
+import { ExtensionOptions } from './types';
 
 
 export interface StartupArgs {
@@ -24,8 +25,12 @@ const defaultSocketOptions: Partial<APISocketOptions> = {
   ]
 };
 
+const defaultExtensionOptions: ExtensionOptions = {
+  minSleepDetectTimeout: 30000,
+  aliveCheckInterval: 5000,
+};
 
-export const getDefaultContext = (userSocketOptions: Partial<APISocketOptions> = {}) => {
+export const getDefaultContext = (userSocketOptions: Partial<APISocketOptions>, userExtensionOptions: Partial<ExtensionOptions>) => {
   const argv = minimist(process.argv.slice(2)) as any as StartupArgs;
 
   const connectUrl = `ws://${argv.apiUrl}`;
@@ -46,6 +51,10 @@ export const getDefaultContext = (userSocketOptions: Partial<APISocketOptions> =
     socket,
     connectUrl,
     api,
+    options: {
+      ...defaultExtensionOptions,
+      ...userExtensionOptions,
+    }
   };
 
   return DefaultContext;

@@ -39,6 +39,26 @@
 			"name": "Attach to Process",
 			"address": "localhost",
 			"port": 5858
-		}
+		}, {
+      "name": "Run Tests With Debugger",
+      "type": "node",
+      "request": "launch",
+      "port": 5858,
+      "address": "localhost",
+      "stopOnEntry": false,
+      "runtimeExecutable": null,
+      "sourceMaps": true,
+      "console": "integratedTerminal",
+      "args": [
+        // "-t", "handle updating the change info parent path",
+      ],
+      "runtimeArgs": [
+        "--inspect-brk=5858",
+        "./node_modules/jest-cli/bin/jest.js",
+        "-i",
+        "--runInBand"
+      ],
+      "cwd": "${workspaceRoot}"
+    }
 	]
 }

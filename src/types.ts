@@ -24,7 +24,8 @@ export interface ExtensionEntryData {
 }
 
 export interface ExtensionOptions {
-  // TODO
+  minSleepDetectTimeout: number;
+  aliveCheckInterval: number;
 }
 
 export type ScriptEntryHandler = (socket: APISocket, extension: ExtensionEntryData) => void;

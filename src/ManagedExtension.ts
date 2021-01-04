@@ -9,10 +9,10 @@ import { getSystemInfo, parseServerInfo } from './utils';
 export const ManagedExtension = (
   ScriptEntry: ScriptEntryType, 
   userSocketOptions: Partial<APISocketOptions> = {},
-  userExtensionOptions: Partial<ExtensionOptions>,
+  userExtensionOptions: Partial<ExtensionOptions> = {},
   contextGetter = getDefaultContext
 ) => {
-  const context = contextGetter(userSocketOptions);
+  const context = contextGetter(userSocketOptions, userExtensionOptions);
   const { argv, socket, connectUrl, api } = context;
 
   process.title = argv.name;
@@ -110,6 +110,9 @@ export const ManagedExtension = (
   return {
     stop: () => {
       processStateChecker.stop();
+    },
+    getStats: () => {
+      return processStateChecker.getStats();
     },
   };
 }

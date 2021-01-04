@@ -12,13 +12,10 @@ const isPidAlive = (pid: number) => {
   }
 };
 
-const ProcessStateChecker = (appPid: number, { socket, api }: ContextType, onStop: () => void) => {
-  const ALIVE_CHECK_INTERVAL_MS = 5000;
-  const MIN_SLEEP_DETECT_TIMEOUT_MS = 30000;
-
+const ProcessStateChecker = (appPid: number, { socket, api, options }: ContextType, onStop: () => void) => {
   let lastParentAlive = Date.now();
   let interval: any;
-  let sleepDetectTimeoutMs: number = MIN_SLEEP_DETECT_TIMEOUT_MS;
+  let sleepDetectTimeoutMs: number = options.minSleepDetectTimeout;
 
   const checkParentAlive = () => {
     // System was hibernated? Request the extension to be restarted
@@ -44,13 +41,13 @@ const ProcessStateChecker = (appPid: number, { socket, api }: ContextType, onSto
   const start = () => {
     api.getSettingValues<number>([ 'ping_timeout' ])
       .then(v => {
-        const pingTimeoutMs = v[0] * 1000;
+        const pingTimeoutMs = v.ping_timeout * 1000;
         if (pingTimeoutMs > sleepDetectTimeoutMs) {
           sleepDetectTimeoutMs = pingTimeoutMs;
-          socket.logger.info(`Alive check timeout adjusted to match the API ping timeout ${pingTimeoutMs}`);
+          socket.logger.info(`Alive check timeout adjusted to match the API ping timeout (${pingTimeoutMs} ms)`);
         }
 
-        interval = setInterval(checkParentAlive, ALIVE_CHECK_INTERVAL_MS);
+        interval = setInterval(checkParentAlive, options.aliveCheckInterval);
       })
       .catch(e => {
         socket.logger.error(`Failed to get ping timeout value from the API`, e);
@@ -65,7 +62,7 @@ const ProcessStateChecker = (appPid: number, { socket, api }: ContextType, onSto
   return {
     start,
     stop,
-    getConfig: () => ({
+    getStats: () => ({
       sleepDetectTimeoutMs,
     }),
   };
@@ -108,6 +105,9 @@ const SocketPingHandler = ({ socket, api }: ContextType, onStop: () => void) => 
   return {
     start,
     stop,
+    getStats: () => ({
+      sleepDetectTimeoutMs: PING_TIMEOUT_MS,
+    }),
   };
 }
 

@@ -12,7 +12,7 @@ export const API = (socket: APISocket, argv: StartupArgs) => {
 	}
 
 	const getSettingValues = <ValueT>(keys: string[]) => {
-		return socket.post<Array<ValueT>>('settings/get', {
+		return socket.post<Record<string, ValueT>>('settings/get', {
 			keys
 		});
 	};
