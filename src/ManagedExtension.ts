@@ -1,53 +1,22 @@
-import { Socket, APISocketOptions } from 'airdcpp-apisocket';
-import minimist from 'minimist';
+import { APISocketOptions } from 'airdcpp-apisocket';
+import { getDefaultContext } from './context';
 import { getProcessStateChecker, EXIT_CODE_RESTART } from './process-state-checker';
 
 import { ScriptEntryType, StartHandler, StopHandler } from './types';
 import { getSystemInfo, parseServerInfo } from './utils';
 
 
-export interface StartupArgs {
-  name: string;
-  configPath: string;
-  logPath: string;
-  debug: boolean;
-  signalReady?: boolean;
-  apiUrl: string;
-  settingsPath: string;
-  authToken: string;
-  appPid: number | undefined;
-}
-
-const defaultSocketOptions: Partial<APISocketOptions> = {
-  // API settings
-  autoReconnect: false,
-  
-  ignoredRequestPaths: [
-    'sessions/activity'
-  ]
-};
-
-const argv = minimist(process.argv.slice(2)) as any as StartupArgs;
-
 export const ManagedExtension = (
   ScriptEntry: ScriptEntryType, 
-  userSocketOptions: Partial<APISocketOptions> = {}
+  userSocketOptions: Partial<APISocketOptions> = {},
+  contextGetter = getDefaultContext
 ) => {
+  const { argv, socket, connectUrl } = contextGetter(userSocketOptions);
+
   process.title = argv.name;
 
   let onStart: StartHandler | undefined;
   let onStop: StopHandler | undefined;
-
-  const connectUrl = `ws://${argv.apiUrl}`;
-  const socket = Socket(
-    {
-      logLevel: argv.debug ? 'verbose' : 'info',
-      ...defaultSocketOptions,
-      ...userSocketOptions,
-      url: connectUrl, 
-    },
-    require('websocket').w3cwebsocket
-  );
 
   // socket.logger.verbose(`Node version: ${process.version} ()`);
 
@@ -135,4 +104,10 @@ export const ManagedExtension = (
       onStopExtension();
       process.exit(1);
     });
+
+  return {
+    stop: () => {
+      processStateChecker.stop();
+    },
+  };
 }

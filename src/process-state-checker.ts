@@ -17,6 +17,7 @@ const ProcessStateChecker = (appPid: number, socket: APISocket, onStop: () => vo
   const SLEEP_DETECT_TIMEOUT_MS = 30000;
 
   let lastParentAlive = Date.now();
+  let interval: any;
 
   const checkParentAlive = () => {
     // System was hibernated? Request the extension to be restarted
@@ -40,11 +41,16 @@ const ProcessStateChecker = (appPid: number, socket: APISocket, onStop: () => vo
   };
 
   const start = () => {
-    setInterval(checkParentAlive, ALIVE_CHECK_INTERVAL_MS);
+    interval = setInterval(checkParentAlive, ALIVE_CHECK_INTERVAL_MS);
+  };
+  
+  const stop = () => {
+    clearInterval(interval);
   };
 
   return {
     start,
+    stop,
   };
 };
 
@@ -55,6 +61,7 @@ const SocketPingHandler = (socket: APISocket, onStop: () => void) => {
   const PING_TIMEOUT_MS = 10000;
 
   let lastSocketAlive = Date.now() + 9999;
+  let interval: any;
 
   const handlePing = () => {
     if (lastSocketAlive + PING_TIMEOUT_MS < Date.now()) {
@@ -74,11 +81,16 @@ const SocketPingHandler = (socket: APISocket, onStop: () => void) => {
   };
 
   const start = () => {
-    setInterval(handlePing, PING_INTERVAL_MS);
+    interval = setInterval(handlePing, PING_INTERVAL_MS);
+  };
+  
+  const stop = () => {
+    clearInterval(interval);
   };
 
   return {
     start,
+    stop,
   };
 }
 
