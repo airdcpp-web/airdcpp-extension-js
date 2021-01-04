@@ -2,7 +2,7 @@
 import { URL } from 'url';
 import { ServerInfo } from './types';
 
-import { version as osVersion, arch, cpus, totalmem } from 'os';
+import os from 'os';
 
 
 export const parseServerInfo = (apiUrl: string): ServerInfo => {
@@ -15,8 +15,8 @@ export const parseServerInfo = (apiUrl: string): ServerInfo => {
 
 export const getSystemInfo = () => ({
   nodeVersion: process.version,
-  arch: arch(),
-  osVersion: osVersion(),
-  totalmem: totalmem(),
-  cpuCount: cpus().length,
+  arch: os.arch(),
+  osVersion: !!os.version ? os.version() : 'N/A',
+  totalmem: os.totalmem(),
+  cpuCount: os.cpus().length,
 });
