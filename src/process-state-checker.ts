@@ -42,6 +42,10 @@ const ProcessStateChecker = (appPid: number, { socket, api, options }: ContextTy
     api.getSettingValues<number>([ 'ping_timeout' ])
       .then(v => {
         const pingTimeoutMs = v.ping_timeout * 1000;
+
+        // In some cases the default sleep detection timeout may not be long enough to avoid disconnects
+        // caused by the process being frozen (https://github.com/airdcpp-web/airdcpp-share-monitor/issues/2)
+        // Allow increasing the timeout by increasing the socket ping timeout from the application settings 
         if (pingTimeoutMs > sleepDetectTimeoutMs) {
           sleepDetectTimeoutMs = pingTimeoutMs;
           socket.logger.info(`Alive check timeout adjusted to match the API ping timeout (${pingTimeoutMs} ms)`);

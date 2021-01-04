@@ -1,3 +1,9 @@
+### 1.5.0 (2021-01-04)
+
+- Allow passing in custom extension options
+- Fix compatibility with older node versions (< 12)
+- Increase the system sleep detection timeout to match the socket ping timeout application setting (https://github.com/airdcpp-web/airdcpp-share-monitor/issues/2)
+
 ### 1.4.2 (2021-01-01)
 
 - Set the process title to match the extension name
