@@ -1,5 +1,6 @@
 import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 import minimist from 'minimist';
+import { API } from './api';
 
 
 export interface StartupArgs {
@@ -26,20 +27,25 @@ const defaultSocketOptions: Partial<APISocketOptions> = {
 
 export const getDefaultContext = (userSocketOptions: Partial<APISocketOptions> = {}) => {
   const argv = minimist(process.argv.slice(2)) as any as StartupArgs;
+
   const connectUrl = `ws://${argv.apiUrl}`;
+  const socket = Socket(
+    {
+      logLevel: argv.debug ? 'verbose' : 'info',
+      ...defaultSocketOptions,
+      ...userSocketOptions,
+      url: connectUrl, 
+    },
+    require('websocket').w3cwebsocket
+  );
+
+  const api = API(socket, argv);
 
   const DefaultContext = {
     argv,
-    socket: Socket(
-      {
-        logLevel: argv.debug ? 'verbose' : 'info',
-        ...defaultSocketOptions,
-        ...userSocketOptions,
-        url: connectUrl, 
-      },
-      require('websocket').w3cwebsocket
-    ),
+    socket,
     connectUrl,
+    api,
   };
 
   return DefaultContext;

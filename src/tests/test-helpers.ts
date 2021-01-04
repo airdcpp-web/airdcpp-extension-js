@@ -1,4 +1,5 @@
 import { APISocket } from 'airdcpp-apisocket';
+import { APIType } from '../api';
 import { ContextType } from '../context';
 
 
@@ -21,6 +22,18 @@ const MockArgs = {
   appPid: 123,
 };
 
+const MockAPI: APIType = {
+  ready: () => {
+    return Promise.resolve();
+  },
+  getSettingValues: (values) => {
+    return Promise.resolve([ 30 ] as any);
+  },
+  activity: () => {
+    return Promise.resolve();
+  },
+};
+
 export const getMockContext = () => {
   const MockSocket = {
     reconnect: () => {
@@ -33,6 +46,7 @@ export const getMockContext = () => {
     argv: MockArgs,
     socket: MockSocket as APISocket,
     connectUrl: 'ws://mock-api-url:5600',
+    api: MockAPI,
   };
 
   return Context;

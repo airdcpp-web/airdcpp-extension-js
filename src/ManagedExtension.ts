@@ -11,7 +11,8 @@ export const ManagedExtension = (
   userSocketOptions: Partial<APISocketOptions> = {},
   contextGetter = getDefaultContext
 ) => {
-  const { argv, socket, connectUrl } = contextGetter(userSocketOptions);
+  const context = contextGetter(userSocketOptions);
+  const { argv, socket, connectUrl, api } = context;
 
   process.title = argv.name;
 
@@ -33,7 +34,7 @@ export const ManagedExtension = (
     }
   };
 
-  const processStateChecker = getProcessStateChecker(argv.appPid, socket, onStopExtension);
+  const processStateChecker = getProcessStateChecker(context, onStopExtension);
 
   // Socket state handlers
   socket.onConnected = (sessionInfo) => {
@@ -45,7 +46,7 @@ export const ManagedExtension = (
         Promise.resolve(onStart(sessionInfo))
           .then(() => {
             if (argv.signalReady) {
-              socket.post(`extensions/${argv.name}/ready`)
+              api.ready()
                 .catch(e => socket.logger.error(`Failed to signal ready state: ${e.message}`));
             }
           });

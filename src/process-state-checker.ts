@@ -1,4 +1,4 @@
-import { APISocket } from 'airdcpp-apisocket';
+import { ContextType } from './context';
 
 
 export const EXIT_CODE_RESTART = 124;
@@ -12,7 +12,7 @@ const isPidAlive = (pid: number) => {
   }
 };
 
-const ProcessStateChecker = (appPid: number, socket: APISocket, onStop: () => void) => {
+const ProcessStateChecker = (appPid: number, { socket }: ContextType, onStop: () => void) => {
   const ALIVE_CHECK_INTERVAL_MS = 5000;
   const SLEEP_DETECT_TIMEOUT_MS = 30000;
 
@@ -56,7 +56,7 @@ const ProcessStateChecker = (appPid: number, socket: APISocket, onStop: () => vo
 
 
 // Legacy
-const SocketPingHandler = (socket: APISocket, onStop: () => void) => {
+const SocketPingHandler = ({ socket, api }: ContextType, onStop: () => void) => {
   const PING_INTERVAL_MS = 4000;
   const PING_TIMEOUT_MS = 10000;
 
@@ -71,7 +71,7 @@ const SocketPingHandler = (socket: APISocket, onStop: () => void) => {
       return;
     }
 
-    socket.post('sessions/activity')
+    api.activity()
       .then(_ => {
         lastSocketAlive = Date.now();
       })
@@ -94,12 +94,12 @@ const SocketPingHandler = (socket: APISocket, onStop: () => void) => {
   };
 }
 
-export const getProcessStateChecker = (appPid: number | undefined, socket: APISocket, onStop: () => void) => {
+export const getProcessStateChecker = (context: ContextType, onStop: () => void) => {
   // appPid is available starting from feature level 7
-  if (!appPid) {
+  if (!context.argv.appPid) {
     // Legacy process state checker for older application versions
-    return SocketPingHandler(socket, onStop);
+    return SocketPingHandler(context, onStop);
   }
 
-  return ProcessStateChecker(appPid, socket, onStop);
+  return ProcessStateChecker(context.argv.appPid, context, onStop);
 };
