@@ -29,7 +29,9 @@ describe('Managed extension', () => {
       api: {
         getSettingValues: (keys) => {
           settingValuesMockFn(keys);
-          return Promise.resolve([SLEEP_DETECT_TIMEOUT] as any);
+          return Promise.resolve({
+            ping_timeout: SLEEP_DETECT_TIMEOUT
+          } as any);
         },
       },
     });
