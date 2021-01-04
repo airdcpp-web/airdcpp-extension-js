@@ -2,13 +2,14 @@ import { APISocketOptions } from 'airdcpp-apisocket';
 import { getDefaultContext } from './context';
 import { getProcessStateChecker, EXIT_CODE_RESTART } from './process-state-checker';
 
-import { ScriptEntryType, StartHandler, StopHandler } from './types';
+import { ExtensionOptions, ScriptEntryType, StartHandler, StopHandler } from './types';
 import { getSystemInfo, parseServerInfo } from './utils';
 
 
 export const ManagedExtension = (
   ScriptEntry: ScriptEntryType, 
   userSocketOptions: Partial<APISocketOptions> = {},
+  userExtensionOptions: Partial<ExtensionOptions>,
   contextGetter = getDefaultContext
 ) => {
   const context = contextGetter(userSocketOptions);

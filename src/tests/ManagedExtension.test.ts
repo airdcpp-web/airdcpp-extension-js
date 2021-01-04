@@ -7,11 +7,15 @@ describe('Managed extension', () => {
   test('should start', async () => {
     const entryMockFn = jest.fn();
 
+    const ExtensionOptions = {
+
+    };
+
     const Entry: ScriptEntryHandler = (socket, extension) => {
       entryMockFn(extension);
     };
 
-    const ext = ManagedExtension(Entry, {}, getMockContext);
+    const ext = ManagedExtension(Entry, {}, ExtensionOptions, getMockContext);
 
     expect(entryMockFn.mock.calls[0]).toMatchInlineSnapshot(`
       Array [

@@ -23,6 +23,10 @@ export interface ExtensionEntryData {
   onStop: StopHandler;
 }
 
+export interface ExtensionOptions {
+  // TODO
+}
+
 export type ScriptEntryHandler = (socket: APISocket, extension: ExtensionEntryData) => void;
 
 export type ScriptEntryType = (ScriptEntryHandler & { default?: undefined }) | { default: ScriptEntryHandler };
