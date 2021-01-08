@@ -2,8 +2,13 @@
 
 const byteUnits = [ 'kB','MB','GB','TB','PB','EB','ZB','YB' ];
 
+const priorityAutoId = 100;
+
 const priorityEnum = [
 	{
+		id: priorityAutoId,
+		name: 'Auto',
+	}, {
 		id: -1,
 		name: 'Paused (forced)',
 	}, {
@@ -121,6 +126,11 @@ module.exports = {
 		}
 	],
 
+	toApiPriority(id) {
+		return id === priorityAutoId ? null : id;
+	},
+
 	fileTypeEnum,
 	priorityEnum,
+	priorityAutoId,
 };

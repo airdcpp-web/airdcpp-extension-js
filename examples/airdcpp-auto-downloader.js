@@ -19,7 +19,7 @@ const SettingDefinitions = [
 			{
 				pattern: 'ubuntu',
 				extensions: 'iso;img',
-				priority: 3,
+				priority: Utils.priorityAutoId,
 				file_type: 'any',
 			}
 		],
@@ -30,7 +30,7 @@ const SettingDefinitions = [
 			{
 				key: 'priority',
 				title: 'Priority',
-				default_value: 3,
+				default_value: Utils.priorityAutoId,
 				type: 'number',
 				options: Utils.priorityEnum,
 			}, {
@@ -99,7 +99,7 @@ module.exports = function (socket, extension) {
 			// We have results, download the best one
 			const result = results[0];
 			socket.post(`search/${instance.id}/results/${result.id}/download`, {
-				priority: item.priority,
+				priority: Utils.toApiPriority(item.priority),
 				target_directory: item.target_directory,
 			});
 		}
