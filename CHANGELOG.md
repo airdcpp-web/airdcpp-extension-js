@@ -1,3 +1,7 @@
+### 1.5.1 (2021-08-15)
+
+- Update dependencies
+
 ### 1.5.0 (2021-01-04)
 
 - Allow passing in custom extension options
