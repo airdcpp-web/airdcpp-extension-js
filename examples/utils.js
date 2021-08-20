@@ -9,25 +9,25 @@ const priorityEnum = [
 		id: priorityAutoId,
 		name: 'Auto',
 	}, {
-		id: -1,
+		id: 0,
 		name: 'Paused (forced)',
 	}, {
-		id: 0,
+		id: 1,
 		name: 'Paused',
 	}, {
-		id: 1,
+		id: 2,
 		name: 'Lowest',
 	}, {
-		id: 2,
+		id: 3,
 		name: 'Low',
 	}, {
-		id: 3,
+		id: 4,
 		name: 'Normal',
 	}, {
-		id: 4,
+		id: 5,
 		name: 'High',
 	}, {
-		id: 5,
+		id: 6,
 		name: 'Highest',
 	}
 ];
