@@ -111,8 +111,9 @@ See [airdcpp-apisocket](https://github.com/airdcpp-web/airdcpp-apisocket-js/blob
 
 See the [dev server of `airdcpp-create-extension`](https://github.com/airdcpp-web/airdcpp-create-extension/tree/master/devtools) starter project.
 
-[build-badge]: https://img.shields.io/travis/airdcpp-web/airdcpp-extension-js/master.svg?style=flat-square
-[build]: https://travis-ci.org/airdcpp-web/airdcpp-extension-js
+
+[build-badge]: https://github.com/airdcpp-web/airdcpp-release-validator/actions/workflows/node.js.yml/badge.svg
+[build]: https://github.com/airdcpp-web/airdcpp-release-validator/actions/workflows/node.js.yml
 
 [npm-badge]: https://img.shields.io/npm/v/airdcpp-release-validator.svg?style=flat-square
 [npm]: https://www.npmjs.org/package/airdcpp-extension
