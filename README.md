@@ -1,4 +1,4 @@
-# AirDC++ extension development modules for JavaScript [![Travis][build-badge]][build] [![npm package][npm-badge]][npm] [![Coverage][coverage-badge]][coverage]
+# AirDC++ extension development modules for JavaScript [![Node.js CI][build-badge]][build] [![npm package][npm-badge]][npm] [![Coverage][coverage-badge]][coverage]
 
 >If you are new to AirDC++ extension development, you should first see the [`airdcpp-create-extension`](https://github.com/airdcpp-web/airdcpp-create-extension/) starter project for a complete introduction.
 
