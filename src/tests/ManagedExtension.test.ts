@@ -30,7 +30,7 @@ describe('Managed extension', () => {
         getSettingValues: (keys) => {
           settingValuesMockFn(keys);
           return Promise.resolve({
-            ping_timeout: SLEEP_DETECT_TIMEOUT
+            ping_timeout: SLEEP_DETECT_TIMEOUT,
           } as any);
         },
       },
@@ -45,15 +45,15 @@ describe('Managed extension', () => {
     });
 
     expect(entryMockFn.mock.calls[0]).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "configPath": "mock-settings-path",
           "debugMode": false,
           "logPath": "mock-log-path",
           "name": "mock-ext",
           "onStart": undefined,
           "onStop": undefined,
-          "server": Object {
+          "server": {
             "address": "mock-api-url:5600",
             "secure": false,
           },
@@ -62,8 +62,8 @@ describe('Managed extension', () => {
     `);
 
     expect(settingValuesMockFn.mock.calls[0]).toMatchInlineSnapshot(`
-      Array [
-        Array [
+      [
+        [
           "ping_timeout",
         ],
       ]

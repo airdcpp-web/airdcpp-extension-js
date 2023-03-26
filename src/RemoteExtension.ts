@@ -66,11 +66,11 @@ export const RemoteExtension = (
     // Remove a some of the the properties to make the console log a bit cleaner (and to prevent the debug build from crashing)
     const ret = Object.keys(packageInfo).reduce((reduced, key) => {
       if (key !== 'devDependencies' && key !== 'dependencies' && key !== 'scripts') {
-        reduced[key] = packageInfo[key];
+        reduced[key as keyof typeof packageInfo] = packageInfo[key as keyof typeof packageInfo];
       }
 
       return reduced;
-    }, {});
+    }, {} as typeof packageInfo);
 
     return {
       ...ret,
