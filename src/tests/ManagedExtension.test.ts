@@ -1,8 +1,10 @@
-import { ManagedExtension } from '../ManagedExtension';
+import { ManagedExtension } from '../ManagedExtension.js';
 import { getMockContext } from './test-helpers';
 
-import { ScriptEntryHandler } from '../types';
+import { ScriptEntryHandler } from '../types.js';
 import waitForExpect from 'wait-for-expect';
+
+import { jest } from '@jest/globals'
 
 describe('Managed extension', () => {
   let ext: ReturnType<typeof ManagedExtension>;

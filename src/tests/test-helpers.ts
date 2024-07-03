@@ -1,7 +1,7 @@
 import { APISocket } from 'airdcpp-apisocket';
-import { APIType } from '../api';
-import { ContextType } from '../context';
-import { ExtensionOptions } from '../types';
+import { APIType } from '../api.js';
+import { ContextType } from '../context.js';
+import { ExtensionOptions } from '../types.js';
 
 
 

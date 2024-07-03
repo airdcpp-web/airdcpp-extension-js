@@ -2,26 +2,34 @@
 const config = {
   preset: 'ts-jest',
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.ts$': 'ts-jest'
+    '^.+\\.js$': 'babel-jest',
+    /*'^.+\\.ts$': [
+      'ts-jest',
+      {
+        useESM: true,
+      },
+    ],*/
+    '^.+\\.ts$': 'ts-jest',
   },
   transformIgnorePatterns: [
-    '<rootDir>\/node_modules\/'
+    '<rootDir>\/node_modules\/(?!airdcpp-apisocket)\/'
   ],
   roots: [
     '<rootDir>/src/'
   ],
+  // extensionsToTreatAsEsm: ['.ts'],
   testEnvironment: 'node',
   moduleFileExtensions: [
     'js',
     'ts',
     'json'
   ],
-  /*transformIgnorePatterns: [
-    '<rootDir>\/node_modules\/(?!chalk)\/'
-  ],*/
+  //moduleNameMapper: {
+  //  '(src/.*)$': '<rootDir>/$1'
+  //},
   moduleNameMapper: {
-    '(src/.*)$': '<rootDir>/$1'
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+    // '#(.*)': '<rootDir>/node_modules/$1',
   },
   watchPathIgnorePatterns: [
     '/node_modules/',

@@ -4,7 +4,7 @@
 // Forbidden items will be reported privately to the user and also locally as status message
 
 
-const Utils = require('./utils');
+import Utils from './utils.js';
 
 const SettingDefinitions = [
 	{
@@ -55,10 +55,10 @@ const formatResultPaths = (paths) => {
 	return paths.join(', ');
 };
 
-const SettingsManager = require('airdcpp-extension-settings');
+import SettingsManager from 'airdcpp-extension-settings';
 
 // MODULE
-module.exports = function (socket, extension) {
+const ShareChecker = function (socket, extension) {
 	const settings = SettingsManager(socket, {
 		extensionName: extension.name,
 		configVersion: 1,
@@ -156,3 +156,5 @@ module.exports = function (socket, extension) {
 		}
 	};
 };
+
+export default ShareChecker

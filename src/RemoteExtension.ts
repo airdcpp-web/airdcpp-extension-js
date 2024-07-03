@@ -1,11 +1,11 @@
-import { SessionInfo, ScriptEntryType, StartHandler, StopHandler } from './types';
+import { SessionInfo, ScriptEntryType, StartHandler, StopHandler } from './types.js';
 import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 
 import chalk from 'chalk';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import path from 'path';
-import { parseServerInfo } from './utils';
+import { parseServerInfo } from './utils.js';
 
 
 const parseDataDirectory = (dataPath: string, directoryName: string) => {
@@ -34,6 +34,8 @@ interface ExtensionInfo {
   nameSuffix: string;
 };
 
+import websocket from 'websocket'
+
 export const RemoteExtension = (
   Entry: ScriptEntryType, 
   socketOptions: APISocketOptions, 
@@ -47,11 +49,11 @@ export const RemoteExtension = (
   let onStop: StopHandler | undefined;
   let running = false;
 
-  const socket = Socket(socketOptions, require('websocket').w3cwebsocket);
+  const socket = Socket(socketOptions, websocket.w3cwebsocket as any as WebSocket);
 
   const onExtensionRegistered = (sessionInfo: SessionInfo) => {
     // Use timeout so that we won't throw if the code doesn't work
-    setTimeout(_ => {
+    setTimeout(() => {
       logStatus(`Extension ${getExtensionName()} registered, starting the entry...`);
 
       // Run the script

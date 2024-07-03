@@ -63,7 +63,7 @@ const fileTypeEnum = [
 	}
 ];
 
-module.exports = {
+export default {
 	formatSize: function (fileSizeInBytes) {
 		const thresh = 1024;
 		if (Math.abs(fileSizeInBytes) < thresh) {

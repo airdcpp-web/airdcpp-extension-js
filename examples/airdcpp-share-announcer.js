@@ -30,10 +30,10 @@ const SettingDefinitions = [
 ];
 
 
-const SettingsManager = require('airdcpp-extension-settings');
-const Utils = require('./utils');
+import SettingsManager from 'airdcpp-extension-settings';
+import Utils from './utils.js';
 
-module.exports = function (socket, extension) {
+const ShareAnnouncer = function (socket, extension) {
 	const settings = SettingsManager(socket, {
 		extensionName: extension.name,
 		configVersion: 1,
@@ -79,3 +79,5 @@ module.exports = function (socket, extension) {
 		}
 	};
 }
+
+export default ShareAnnouncer

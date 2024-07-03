@@ -1,6 +1,6 @@
 
 import { URL } from 'url';
-import { ServerInfo } from './types';
+import { ServerInfo } from './types.js';
 
 import os from 'os';
 

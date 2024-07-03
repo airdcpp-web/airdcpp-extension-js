@@ -1,7 +1,7 @@
 import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 import minimist from 'minimist';
-import { API } from './api';
-import { ExtensionOptions } from './types';
+import { API } from './api.js';
+import { ExtensionOptions } from './types.js';
 
 
 export interface StartupArgs {

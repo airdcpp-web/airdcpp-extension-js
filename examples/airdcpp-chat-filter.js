@@ -24,10 +24,10 @@ const SettingDefinitions = [
 	}
 ];
 
-const SettingsManager = require('airdcpp-extension-settings');
+import SettingsManager from 'airdcpp-extension-settings';
 
 // MODULE
-module.exports = function (socket, extension) {
+ const ChatFilter = function (socket, extension) {
 	const settings = SettingsManager(socket, {
 		extensionName: extension.name,
 		configVersion: 1,
@@ -164,3 +164,5 @@ module.exports = function (socket, extension) {
 		socket.addListener('private_chat', 'private_chat_text_command', onChatCommand.bind(this, 'private_chat'));
 	};
 };
+
+export default ChatFilter

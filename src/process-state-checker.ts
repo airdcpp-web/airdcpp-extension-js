@@ -1,4 +1,4 @@
-import { ContextType } from './context';
+import { ContextType } from './context.js';
 
 
 export const EXIT_CODE_RESTART = 124;

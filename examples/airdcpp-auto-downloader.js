@@ -3,7 +3,7 @@
 // This example script will search the specified items in random order and download
 // the best match for each of them
 
-const Utils = require('./utils');
+import Utils from './utils.js';
 
 const SettingDefinitions = [
 	{
@@ -45,9 +45,9 @@ const SettingDefinitions = [
 	}
 ];
 
-const SettingsManager = require('airdcpp-extension-settings');
+import SettingsManager from 'airdcpp-extension-settings';
 
-module.exports = function (socket, extension) {
+const AutoDownloader = function (socket, extension) {
 	let searchInterval;
 
 	const settings = SettingsManager(socket, {
@@ -124,3 +124,5 @@ module.exports = function (socket, extension) {
 		clearInterval(searchInterval);
 	};
 }
+
+export default AutoDownloader

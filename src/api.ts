@@ -1,5 +1,5 @@
 import { APISocket } from 'airdcpp-apisocket';
-import { StartupArgs } from './context';
+import { StartupArgs } from './context.js';
 
 
 export const API = (socket: APISocket, argv: StartupArgs) => {
