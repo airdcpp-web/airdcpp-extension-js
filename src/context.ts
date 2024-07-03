@@ -3,6 +3,8 @@ import minimist from 'minimist';
 import { API } from './api.js';
 import { ExtensionOptions } from './types.js';
 
+import websocket from 'websocket'
+
 
 export interface StartupArgs {
   name: string;
@@ -41,7 +43,7 @@ export const getDefaultContext = (userSocketOptions: Partial<APISocketOptions>, 
       ...userSocketOptions,
       url: connectUrl, 
     },
-    require('websocket').w3cwebsocket
+    websocket.w3cwebsocket as unknown as WebSocket
   );
 
   const api = API(socket, argv);
