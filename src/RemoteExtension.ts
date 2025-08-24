@@ -3,7 +3,7 @@ import { Socket, APISocketOptions } from 'airdcpp-apisocket';
 
 import chalk from 'chalk';
 import fs from 'fs';
-import mkdirp from 'mkdirp';
+import { mkdirp } from 'mkdirp';
 import path from 'path';
 import { parseServerInfo } from './utils.js';
 

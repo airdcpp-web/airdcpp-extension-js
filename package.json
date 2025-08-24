@@ -22,26 +22,26 @@
     "airdcpp-apisocket": "^3.0.0-beta",
     "chalk": "^5.0.1",
     "minimist": "^1.2.6",
-    "mkdirp": "^2.1.6",
+    "mkdirp": "^3.0.1",
     "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.21.4",
     "@types/jest": "^30.0.0",
     "@types/minimist": "^1.2.2",
-    "@types/mkdirp": "^2.0.0",
+    "@types/mkdirp": "^1.0.2",
     "@types/node": "^24.1.0",
     "@types/websocket": "^1.0.5",
     "airdcpp-extension-settings": "^1.2.1",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "jest": "^30.0.5",
     "jest-cli": "^30.0.5",
     "pre-commit": "^1.2.2",
     "prettier": "^3.3.2",
-    "rimraf": "^4.4.1",
+    "rimraf": "^6.0.1",
     "ts-jest": "^29.0.0",
     "typescript": "^5.0.2",
-    "wait-for-expect": "^3.0.2"
+    "wait-for-expect": "^4.0.0"
   },
   "pre-commit": [
     "test"
